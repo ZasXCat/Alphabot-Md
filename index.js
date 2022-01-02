@@ -468,6 +468,34 @@ break
                     reply(lang.err())
                 })
             break
+case 'hwaifu':
+					m.reply(lang.wait())
+					axios.get(`https://api.waifu.pics/nsfw/waifu`)
+					.then(({data}) => {
+					sendFileFromUrl(m.chat, data.url, mess.sukses, m)
+					})
+					break
+case 'hneko':
+					m.reply(lang.wait())
+					axios.get(`https://api.waifu.pics/nsfw/neko`)
+					.then(({data}) => {
+					sendFileFromUrl(m.chat, data.url, mess.sukses, m)
+					})
+					break
+case 'htrap':
+					m.reply(lang.wait())
+					axios.get(`https://api.waifu.pics/nsfw/trap`)
+					.then(({data}) => {
+					sendFileFromUrl(m.chat, data.url, mess.sukses, m)
+					})
+					break
+case 'blowjob':
+					m.reply(lang.wait())
+					axios.get(`https://api.waifu.pics/nsfw/blowjob`)
+					.then(({data}) => {
+					sendFileFromUrl(m.chat, data.url, mess.sukses, m)
+					})
+					break
             case 'anime':
                 if (!q) return reply(lang.wrongFormat(prefix))
                 await reply(lang.wait())
@@ -513,6 +541,43 @@ break
                     reply(lang.err())
                 })
             break
+case 'odemote': {
+				if (!m.isGroup) return m.reply(lang.groupOnly())
+                if (!m.key.fromMe && !isCreator) return m.reply(mess.owner)
+                if (!isBotAdmins) return m.reply(lang.botNotAdmin())
+				let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+				await alpha.groupParticipantsUpdate(m.chat, [users], 'demote').then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
+				}
+				break
+case 'okick': {
+				if (!m.isGroup) return m.reply(lang.groupOnly())
+                if (!m.key.fromMe && !isCreator) return m.reply(mess.owner)
+                if (!isBotAdmins) return m.reply(lang.botNotAdmin())
+				let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+				await alpha.groupParticipantsUpdate(m.chat, [users], 'remove').then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
+				}
+				break
+case 'htag':
+                if (!m.isGroup) return m.reply(lang.groupOnly())
+                if (!m.key.fromMe && !isCreator) return m.reply(mess.owner)
+                alpha.sendMessage(from, { text : q ? q : '' , mentions: groupMembers.map(a => a.id)})
+            break
+case 'oadd': {
+				if (!m.isGroup) return m.reply(lang.groupOnly())
+                if (!m.key.fromMe && !isCreator) return m.reply(mess.owner)
+                if (!isBotAdmins) return m.reply(lang.botNotAdmin())
+				let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+				await alpha.groupParticipantsUpdate(m.chat, [users], 'add').then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
+				}
+				break
+case 'opromote': {
+				if (!m.isGroup) return m.reply(lang.groupOnly())
+                if (!m.key.fromMe && !isCreator) return m.reply(mess.owner)
+                if (!isBotAdmins) return m.reply(lang.botNotAdmin())
+				let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+				await alpha.groupParticipantsUpdate(m.chat, [users], 'promote').then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
+				}
+				break
             case 'film':
                 if (!q) return reply(lang.wrongFormat(prefix))
                 await reply(lang.wait())
@@ -531,7 +596,7 @@ break
                     reply(lang.err())
                 })
             break
-            /*case 'mp4': case 'ytmp4':
+            case 'mp4': case 'ytmp4':
                 if (!q) return reply(lang.wrongFormat(prefix))
                 if (!isUrl(q)) return reply(lang.wrongFormat(prefix))
                 if (!q.includes('youtu.be') && !q.includes('youtube.com')) return reply(lang.wrongFormat(prefix))
@@ -550,7 +615,7 @@ break
                 .catch((err) => {
                     reply(lang.err())
                 })
-            break*/
+            break
             case 'soundcloud':
     	        if (!q) return reply(lang.wrongFormat(prefix))
                 if (!isUrl(q)) return reply(lang.wrongFormat(prefix))
